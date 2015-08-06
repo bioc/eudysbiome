@@ -1,0 +1,25 @@
+Package: eudysbiome
+Type: Package
+Title: pseudo-cartesian plot and contingency test on 16S Microbial data
+Version: 0.99.2
+Date: 2015-04-07
+Author: Xiaoyuan Zhou, Christine Nardini
+Maintainer: Xiaoyuan Zhou <zhouxiaoyuan@picb.ac.cn>
+Description: eudysbiome a package that permits to annotate the
+        differential genera as harmful/harmless based on their ability
+        to contribute to host diseases (as indicated in literature) or
+        as unknown based on their ambiguous genus classification.
+        Further, the package statistically measures the eubiotic
+        (harmless genera increase or harmful genera decrease) or
+        dysbiotic(harmless genera decrease or harmful genera increase)
+        impact of a given treatment or environmental change on the
+        (gut-intestinal, GI) microbiome in comparison to the microbiome
+        of the reference condition.
+Depends: R (>= 3.2.1)
+Imports: plyr(>= 1.8.1)
+biocViews: Microbiome, Metagenomics,DifferentialExpression, Annotation,
+        Visualization, MultipleComparison, SystemsBiology,
+        Classification, Sequencing, Software
+License: GPL-2
+LazyData: true
+NeedsCompilation: no

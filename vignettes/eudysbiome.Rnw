@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+%\VignetteIndexEntry{eudysbiome User Manual}
+%\VignettePackage{eudysbiome}
+
+\textwidth=6.2in
+\textheight=8.7in
+\oddsidemargin=0.2in
+\evensidemargin=0.2in
+\headheight=0in
+\headsep=0in
+\large
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{eudysbiome User Manual}
+\author{Xiaoyuan Zhou, Christine Nardini \\
+zhouxiaoyuan@picb.ac.cn}
+
+\maketitle
+
+\section*{Introduction}
+
+Large amounts of data for metagenomics, especially the earliest studies on 16S ribosomal RNA gene, are produced by high-throughput screening methods. These are processed in the form of quantitative comparisons (between two microbiomes' conditions) of reads' counts. Reads' counts are interpreted as a taxon's \texttt{abundance} in a microbial community under given conditions, such as a medical treatments or environmental changes. Overall, the comparative analysis of such microbiomes with a baseline condition permits to identify a list of microbes (classified in species, genus or higher taxa) that are differential among the conditions in \texttt{differential abundance}.
+
+\texttt{eudysbiome} is a package that permits to annotate the differential genera of a (gut-intestinal, GI) microbiome as \texttt{harmful/harmless} based on their ability to contribute to mammals' host diseases (as indicated in literature) or \texttt{unknown} based on their ambiguous genus classification. Further, the package statistically measures the \texttt{eubiotic} (harmless genera increase or harmful genera decrease) or \texttt{dysbiotic} (harmless genera decrease or harmful genera increase) impact of a given treatment or environmental change on the microbiome in comparison to the microbiome of the reference condition. 
+
+The package requires as inputs:
+\begin{itemize}
+\item the microbial abundance variations, a simple difference of the differential genera abundance ($\Delta$g) in the two conditions to be compared, as defined above; 
+\item a table qualifying the differential genera as harmful/harmless/unknown, as defined by literature. Such a table, manually curated, is included in this package, but is by no means exhaustive: continuous advances in microbiology make this input incomplete and flexible; we encourage users to share expansions of this table.
+\end{itemize}
+
+The package outputs:
+\begin{itemize}
+\item a graphical output of the genus abundance difference-$\Delta$g across the tested conditions (y-axis) and their harmful/harmless nature (negative/positive x-axis). Since a number of microbes have unknown genus classifications as a result of unknown genus annotations, the x-axis is broken into a positive (harmless), negative (harmful) and "neutral" (unknown) segments (pseudo-cartesian plane);
+\item the contingency table showing as frequencies the cumulated contributions to an eubiotic/dystbiotic microbiome impacts (see Table~\ref{tab:contingency}, columns, namely EI and DI) under different conditions (comparisons between a condition and a reference, listed in rows, namely C1 and C2). The eubiotic impact (EI) is quantified by the |$\Delta$g| cumulation of increasing harmless genera and decreasing harmful genera, while the dysbiotic impact (DI) is quantified by the reverse, i.e. |$\Delta$g| accumulation of decreasing harmless genera and increasing harmful genera;
+\item the results (probability) of testing the null hypothesis that there is no difference in the proportions of frequencies of \texttt{EI} between \texttt{C1} and \texttt{C2} using Chi-squared test\cite{Rice2007}, computed as the probability that the proportion of frequencies in \texttt{EI} under \texttt{C1} ($\frac{a}{a+b}$) is different from that in \texttt{DI} under \texttt{C2} ($\frac{c}{c+d}$). The results of the one-sided Fisher's exact test\cite{Rice2007} assess whether \texttt{C1} is more likely to be associated to a eubiotic microbiome than \texttt{C2}, and is computed as the probability that the proportion of EI under \texttt{C1} is higher than \texttt{C2}.
+\end{itemize}
+
+
+\begin{table}
+\centering
+\begin{tabular}{c c c c}
+\hline\hline
+Comparison & EI & DI & \emph{Row Total} \\ [0.5ex]
+\hline
+C1 & \emph{a} & \emph{b} & \emph{a+b} \\
+C2 & \emph{c} & \emph{d} & \emph{c+d} \\
+\hline
+\emph{Column Total} & \emph{a+c} & \emph{b+d} & \emph{a+b+c+d(=n)} \\
+\hline
+\end{tabular}
+\caption{Contingency Table}
+\label{tab:contingency}
+\end{table}
+
+\section{Microbe Annotation}
+\label{sec:microAnnotate}
+A differential genera list (input) can be annotated as \texttt{harmless} or \texttt{harmful} by the function \texttt{microAnnotate} based on our manually curated table named \texttt{harmGenera} in this package. The table lists the harmful genera and the harmful species included in the genera. Although a genus list is acceptable and can be processed by the package, we recommend inputting a Genus-Species data frame, as in the \texttt{diffGenera} table below, which represents the differential genera and the included corresponding species to gain a more accurate annotation. For example, genus1 will be annotated as harmful if any of the three species (1, 2 and 3) under this genus is annotated as \texttt{harmful}, otherwise, genus1 will be annotated as \texttt{harmless}. 
+
+<<>>=
+library("eudysbiome")
+data(diffGenera)
+head(diffGenera)
+
+data(harmGenera)
+annotation = microAnnotate(diffGenera, annotated.micro = harmGenera)
+@
+
+\section{Pseudo-Cartesian Plane Plot}
+\label{sec:pseudoCartesian}
+The function \texttt{pseudoCartesian} accepts either a data frame or a numeric matrix of $\Delta$g, whose rows represent differential genera and columns represent condition comparisons, these are the argument to produce the pseudo-cartesian plane (6 sub-areas -pseudo quadrants- instead of 4 quadrants where the 2 central are called neutral areas (see details below and in Figure~\ref{fig:carte1} below). The $\Delta$gs are log-2 converted and redundantly represented by the height on the y-axis and the dots diameter. Because of its definition, the increase of harmless (1st pseudo-cartesian quadrant) and/or the decrease of harmful (3rd pseudo-cartesian quadrant) define microbiome variation that are eubiotic (beneficial) and highlighted by a green shade, and the decrease of harmless (2nd pseudo-quadrant) and/or the increase of harmful (4th pseudo-quadrant) as dysbiotic (non-beneficial) and highlighted by a red shade. The unknown genera can be optionally shown in the two central neutral areas. 
+
+For example below, a data frame \texttt{data} is constructed from the \texttt{microDiff} dataset with $\Delta$g of ten differential genera among comparisons \texttt{A vs C}, \texttt{B vs C} and \texttt{D vs C}, where \texttt{A}, \texttt{B} and \texttt{D} are three conditions and \texttt{C} is a control. The genera are annotated as \texttt{harmless}, \texttt{harmful} or \texttt{unknown} in \texttt{micro.ano} based on the output by the \texttt{microAnnotate} function, and comparisons are defined as \texttt{A-C} (A vs C), \texttt{B-C} (B vs C), and \texttt{D-C} (D vs C) in \texttt{comp.ano} and indicated by the column names of the input data if no other \texttt{comp.anno} is specified. Eubiotic changes associated to conditions \texttt{A, B, D} compared to control \texttt{C} are plotted in the up-utmost right and bottom-utmost left quadrants (increase of harmless and decrease of harmful genera) and dysbiotic variations are plotted on the bottom-utmost right and up-utmost left quadrants (increase of harmful and decrease of harmless genera) in Figure~\ref{fig:carte1}.
+
+<<pseudoCartesian, fig=TRUE, include=FALSE,  prefix=FALSE, cache=TRUE >>=
+data(microDiff)
+microDiff
+attach(microDiff)
+
+par(mar = c(6,5.1,4.1,6))
+pseudoCartesian(data ,micro.anno = micro.anno,comp.anno= comp.anno,
+                unknown=TRUE,point.col = c("blue","purple","orange"))
+@
+
+\begin{figure}
+\centering
+\includegraphics[height=0.8\textwidth, width=0.8\textwidth]{pseudoCartesian} 
+\caption{\label{fig:carte1} Pseudo-cartesian plane of the harmful/unknown/harmless annotated genera (on the x-axis) and their abundance variations among the condition comparisons (log2 ($\Delta$g), y-axis). The eubiotic microbiome impact is highlighted by a green shade while the dysbiotic one is highlighted by a red shade.}
+\end{figure}
+
+\section{Contingency Table Construction}
+This function computes the frequencies of the contingency table as the cumulated |$\Delta$g| classified by each couple formed by a condition and an impact (eubiotic/dysbiotic, see Table~\ref{tab:contingency}). This outputs the significance of the association (contingency) between conditions and impacts by \texttt{contingencyTest}. For example, the benefits of conditions \texttt{A, B, D} are measured by the increase $\Delta$g of harmless genera and the decrease $\Delta$g of harmful genera in the comparisons to \texttt{C}, while the non-beneficial impact is evaluated in reverse by the decrease $\Delta$g of harmless genera and the increase $\Delta$g of harmful genera. Absolute values of $\Delta$g are cumulated as frequencies and used into the contingency table (Table~\ref{tab:Count}).
+
+\begin{table}
+\centering
+\begin{tabular}{c c c}
+\hline\hline
+Condition & Eubiotic Impact & Dysbiotic Impact \\ [0.5ex]
+\hline
+A-C & 2068 & 315 \\
+\hline
+B-C & 2270 & 313 \\
+\hline
+D-C & 1369 & 264 \\ 
+\hline
+\end{tabular}
+\caption{Condition-impact contingency table of microbial frequencies}
+\label{tab:Count}
+\end{table}
+
+<<microCount,fig=FALSE>>=
+microCount = contingencyCount(data ,micro.anno = micro.anno, 
+                              comp.anno= comp.anno)
+@
+
+
+\section{Contingency test for count data}
+To elaborate the significance of the association between conditions and eubiotic/dysbiotic impacts, Chi-squared test and Fisher's exact test (one- and two- sided) are performed on the frequencies from \texttt {contingencyCount} for testing the null hypothesis that conditions are equally likely to lead to a more eubiotic microbiome when compared to the control while the alternative hypothesis is that this probability is not equal or one condition is more likely to be associated to an eubiotic microbiomes than the other (only with Fisher test, one-sided).
+Taking Table~\ref{tab:Count} as an example, we hypothesize that the proportion of eubiotic frequencies are different (Chi-squared and two-sided Fisher test) between condition comparisons \texttt{A-C}, \texttt{B-C} and \texttt{D-C} or even higher (one-sided Fisher test) in one comparison than the other, and we want to test whether this difference is negligible or refers to a significant association between the condition and the (GI) microbiome composition modification. Both Fisher and Chi-squared tests are performed by the \texttt{contingencyTest} function and significance values are output in tables. 
+
+<<test,fig=FALSE>>=
+microTest = contingencyTest(microCount,alternative ="greater")
+microTest["Chisq.p"]
+microTest["Fisher.p"]
+@
+
+\newpage
+\begin{thebibliography}{9}
+\bibitem{Rice2007}
+Rice, John A.,
+Mathematical statistics and data analysis,
+Belmont, CA,
+Thomson/Brooks/Cole,
+Duxbury advanced series,
+3rd,
+2007.
+\end{thebibliography}
+
+\section*{Session Information}
+The session information records the versions of all the packages used in the generation of the present document.
+\scriptsize{
+<<sessionInfo,results=tex,echo=FALSE>>=
+toLatex(sessionInfo())
+@
+}
+
+\end{document}
