@@ -22,8 +22,7 @@
 microAnnotate = function(microbe,species =TRUE,annotated.micro = NULL){
   
   if(is.null(annotated.micro)){
-    dir.path = system.file("data", package = "eudysbiome")
-    annotated.micro = load(file.path(dir.path,"harmGenera.rda"))
+    annotated.micro = data(harmGenera)
   }
   
   if (species){
