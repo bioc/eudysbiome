@@ -2,12 +2,15 @@
 #'
 #' @name eudysbiome
 #' @docType package
-#' @import plyr
+#' @import plyr Biostrings
+#' @importFrom R.utils gunzip getAbsolutePath
+#' @importFrom Rsamtools indexFa FaFile seqinfo getSeq
+
 NULL
 
 #' Manually curated genera annotation table
 #' A data frame containing 59 genera annotated as "harmful" and the harmful species included in these genera.
-#' 
+#'
 #' @docType data
 #' @keywords datasets
 #' @name harmGenera
@@ -15,10 +18,9 @@ NULL
 #' @format A data frame with 118 rows and 2 columns specifying for \code{Genus} and \code{Species}.
 NULL
 
-
 #' Differential microbes in Genus-Species table
 #' A data frame containing 10 differential genera and the species included, which was to be annotated as \code{"harmful"} or \code{"harmless"}.
-#' 
+#'
 #' @docType data
 #' @keywords datasets
 #' @name diffGenera
@@ -42,7 +44,7 @@ NULL
 #' Microbial count contingency table
 #'
 #' A matrix containing the counts of differential microbe classified into each condition-eubiotic/dysbiotic impact couple. Rows represent the condition comparisons, columns represent the eubiotic and dysbiotic impacts:
-#' 
+#'
 #' \itemize{
 #'   \item EI. eubiotic impact
 #'   \item DI. dysbiotic impact
