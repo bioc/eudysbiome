@@ -1,0 +1,17 @@
+eudysbiome 1.1.2
+---------------------------
+
+New Features:
+
+- new functions seqDownload() and taxDownload() to download SILVA Small subunit (16S/18S, SSU) ribosomal RNA (rRNA) reference (Ref) dataset and the accordant taxonomy mapping file, respectively.
+- new functions seqExtract() and taxExtract() to extract matched sequences and taxonomy mappings, respectively.
+- new function assignTax() to assign taxonomic paths to unclassified SSU rRNA sequences by using the reference sequences and taxonomy mappings.
+- new function tableSpecies() to construct a two columned Genus-Species data frame with given genera and the included corresponding species.
+
+eudysbiome 1.1.1
+---------------------------
+
+Bug Fixes:
+
+- correct the microAnnotate() function on loading the "harmGenera" data
+
