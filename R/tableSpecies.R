@@ -30,19 +30,39 @@ tableSpecies = function(tax.file,microbe){
   species = unique(species)
 
   #filter the ambiguous classified species
-  iterms = c("uncultured","unclassified","human","metagenome")
-  matches <- grepl(paste(iterms,collapse="|"), species$Species)
+  iterms = c("nculture","Sp[.]", " Gut Metagenome","nidentified","Bacterium_","nclassified","^bacterium"," fecal$")
+  matches = grepl(paste(iterms,collapse="|"), species$Species)
+ 
   species = species[!matches,]
-  species$Species = sapply(species$Species, function(x)
-    paste( unlist(strsplit(x," "))[1:2],collapse =" "))
+  species$Species = sapply(species$Species, function(x){
+  	split = unlist(strsplit(x," "))
+  	len = length(split)
+  	if(len == 1){
+  		y = split[[1]]
+  	}
+  	else{
+  		y = paste( split[1:2],collapse =" ")
+  	}
+  	return(y)
+  	})
 
   diffSpecies = species[species$Genus %in% microbe,]
   unmatched = setdiff(microbe, diffSpecies$Genus)
-  unmatched_genus = data.frame(Genus=unmatched,Species=NA)
+  if(length(unmatched) != 0){
+  	unmatched_genus = data.frame(Genus=unmatched,Species=NA)
+  }
+  else{
+  	unmatched_genus = NULL
+  	}
+  
   diffSpecies = rbind(diffSpecies,unmatched_genus)
   diffSpecies$Species = gsub("( )([[:upper:]])","\\1\\L\\2",diffSpecies$Species,perl=TRUE)
   rownames(diffSpecies) = NULL
-
+  
+  matches = grepl(paste(iterms,collapse="|"), diffSpecies$Species)
+  diffSpecies = diffSpecies[!matches,]
+  diffSpecies = unique(diffSpecies)
+  
   return(species=diffSpecies)
 }
 
