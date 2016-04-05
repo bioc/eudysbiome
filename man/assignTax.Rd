@@ -4,15 +4,15 @@
 \alias{assignTax}
 \title{Taxonomic Classification}
 \usage{
-assignTax(fasta, template, taxonomy, ksize = 8, iters = 100, cutoff = 80,
+assignTax(fasta, template = NULL, taxonomy = NULL, ksize = 8, iters = 100, cutoff = 80,
 processors = 1, dir.out = "assignTax_out")
 }
 \arguments{
-\item{fasta}{a fasta file of rRNA sequences to be assigned with taxonomies, e.g. a set of sequences picked as the representatives of classified OTUs.}
+\item{fasta}{a fasta file of rRNA sequences to be assigned with taxonomies, e.g. a set of sequences picked as the representatives of OTUs.}
 
-\item{template}{a faste file of rRNA reference sequences, e.g. the \code{SILVA_123_SSURef_Nr99_tax_silva_trunc.fasta} file.}
+\item{template}{a faste file of rRNA reference sequences, default to download "Silva_119_provisional_release.zip" under "qiime" directory from SILVA archive under , and extract "Silva_119_rep_set97.fna", a representative set of SILVA rRNA references of version119 at 97\% sequence identity.}
 
-\item{taxonomy}{a taxonomic path file mapping to the template file, e.g. the \code{taxmap_slv_ssu_123.txt} file mapping to the \code{SILVA_123_SSURef_Nr99_tax_silva_trunc.fasta} file.}
+\item{taxonomy}{a taxonomic path file mapping to the template file, default to load matched "taxonomy" stored in the package.}
 
 \item{ksize, iters, cutoff, processors}{parameters used in \href{http://www.mothur.org/wiki/Classify.seqs}{Classify.seqs} by Mothur. \code{ksize}, kmer size which is a search option with the 'Wang' method and by default to 8.  \code{iters}, iterations by default 100 to calculate the bootstrap confidence score for the assigned taxonomy. \code{cutoff}, a bootstrap confidence score for the taxonomy assignment, by default 80, which means a minimum 80\% sequences were assigned by the same taxonomy, a higher value gives a more strict taxonomy assignment. \code{processors}, the number of central processing units you use to run the command, by default to 1.}
 
@@ -29,6 +29,5 @@ Assign taxonomic paths to unclassified SSU rRNA sequences, by executing \code{cl
 }
 \details{
 This function performs 'classify.seqs' by running Mothur in command line mode, hence the executable Mothur on your computer is needed. For unix users, the absolute path of Mothur should be added to the PATH environmental variable and exported. For Windows users, the executable Mothur with extension .exe is required under your disks.
-If the classification was performed to a selection of genera (or lower order taxa), we recommend to use the extracted reference sequences by \code{\link{seqExtract}} as the template, accordingly, use the extracted tax file outputted from \code{\link{taxExtract}} as the taxonomy file matched with the given microbes.
 }
 

@@ -1,8 +1,8 @@
 Package: eudysbiome
 Type: Package
-Title: pseudo-cartesian plot and contingency test on 16S Microbial data
-Version: 1.1.2
-Date: 2015-11-23
+Title: Cartesian plot and contingency test on 16S Microbial data
+Version: 1.1.3
+Date: 2016-03-31
 Author: Xiaoyuan Zhou, Christine Nardini
 Maintainer: Xiaoyuan Zhou <zhouxiaoyuan@picb.ac.cn>
 Description: eudysbiome a package that permits to annotate the differential
