@@ -4,14 +4,14 @@
 \name{harmGenera}
 \alias{harmGenera}
 \title{Manually curated genera annotation table
-A data frame containing 235 genera annotated as "harmful" and the harmful species included in these genera.}
-\format{A data frame with 851 rows and 3 columns specifying for \code{Genus} and \code{Species} and the references.}
+A data frame containing 260 genera annotated as "harmful" and the harmful species included in these genera.}
+\format{A data frame with 900 rows and 3 columns specifying for \code{Genus} and \code{Species} and the references.}
 \usage{
 data(harmGenera)
 }
 \description{
 Manually curated genera annotation table
-A data frame containing 235 genera annotated as "harmful" and the harmful species included in these genera.
+A data frame containing 260 genera annotated as "harmful" and the harmful species included in these genera.
 }
 \keyword{datasets}
 

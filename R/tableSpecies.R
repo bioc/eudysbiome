@@ -2,10 +2,11 @@
 #'
 #' This function is used to extract only Genus-Species data from the assigned taxonomic paths outputted by \code{\link{assignTax}} and construct a table containing the classified genera and species included in these genera correspondingly.
 #' @usage tableSpecies(tax.file, microbe)
-#' @param tax.file a taxonomy file with SSU rRNA sequence names and assigned taxonomic paths, see "*.taxonomy" file outputted by \code{link{assignTax}}.
+#' @param tax.file a taxonomy file with SSU rRNA sequence names and assigned taxonomic paths, see "*.taxonomy" file outputted by \code{\link{assignTax}}.
 #' @param microbe a character vector specifying the genera used to construct the Genus-Species data frame
 #' @return a Genus-Species data frame, only with the genera specified by \code{microbe} and the included corresponding species .
-#' @details The outputted Genus-Species table can be used as input for the more accurate genus annotation, which annotates genera as \emph{harmful} or \emph{harmless} based on their ability to contribute to mammals' host diseases by \code{\link{microAnnotate}}.
+#' @details The outputted Genus-Species table can be used as input for the more accurate genus annotation, which annotates genera as \code{harmful} or \code{harmless} based on their ability to contribute to mammals' host diseases by \code{\link{microAnnotate}}.
+#' @export
 #' @examples
 #' #a table with "Lactobacillus" and "Bacteroids" genera and the included species
 #' genera = c("Lactobacillus","Bacteroides")

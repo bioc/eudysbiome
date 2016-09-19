@@ -1,7 +1,7 @@
 Package: eudysbiome
 Type: Package
 Title: Cartesian plot and contingency test on 16S Microbial data
-Version: 1.3.2
+Version: 1.3.3
 Date: 2016-05-19
 Author: Xiaoyuan Zhou, Christine Nardini
 Maintainer: Xiaoyuan Zhou <zhouxiaoyuan@picb.ac.cn>
@@ -13,8 +13,13 @@ Description: eudysbiome a package that permits to annotate the differential
     genera decrease or harmful genera increase) impact of a given treatment or
     environmental change on the (gut-intestinal, GI) microbiome in comparison to the
     microbiome of the reference condition.
-Depends:R (>= 3.1.0)
-Imports: plyr, Rsamtools, R.utils, Biostrings
+Depends:
+    R (>= 3.1.0)
+Imports:
+    plyr,
+    Rsamtools,
+    R.utils,
+    Biostrings
 License: GPL-2
 LazyData: TRUE
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1

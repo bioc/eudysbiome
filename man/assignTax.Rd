@@ -12,7 +12,7 @@ processors = 1, dir.out = "assignTax_out")
 
 \item{template}{a faste file of rRNA reference sequences, default to download "Silva_119_provisional_release.zip" under "qiime" directory from SILVA archive under , and extract "Silva_119_rep_set97.fna", a representative set of SILVA rRNA references of version119 at 97\% sequence identity.}
 
-\item{taxonomy}{a taxonomic path file mapping to the template file, default to load matched "taxonomy" stored in the package.}
+\item{taxonomy}{a taxonomic path file mapping to the template file, default to load "Silva_119_rep_set97.fna" matched "taxonomy" stored in the package.}
 
 \item{ksize, iters, cutoff, processors}{parameters used in \href{http://www.mothur.org/wiki/Classify.seqs}{Classify.seqs} by Mothur. \code{ksize}, kmer size which is a search option with the 'Wang' method and by default to 8.  \code{iters}, iterations by default 100 to calculate the bootstrap confidence score for the assigned taxonomy. \code{cutoff}, a bootstrap confidence score for the taxonomy assignment, by default 80, which means a minimum 80\% sequences were assigned by the same taxonomy, a higher value gives a more strict taxonomy assignment. \code{processors}, the number of central processing units you use to run the command, by default to 1.}
 

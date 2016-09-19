@@ -9,13 +9,13 @@
 NULL
 
 #' Manually curated genera annotation table
-#' A data frame containing 235 genera annotated as "harmful" and the harmful species included in these genera.
+#' A data frame containing 260 genera annotated as "harmful" and the harmful species included in these genera.
 #'
 #' @docType data
 #' @keywords datasets
 #' @name harmGenera
 #' @usage data(harmGenera)
-#' @format A data frame with 851 rows and 3 columns specifying for \code{Genus} and \code{Species} and the references.
+#' @format A data frame with 900 rows and 3 columns specifying for \code{Genus} and \code{Species} and the references.
 NULL
 
 #' Differential microbes in Genus-Species table

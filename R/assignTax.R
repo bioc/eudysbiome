@@ -10,7 +10,7 @@
 #' @param ksize,iters,cutoff,processors parameters used in \href{http://www.mothur.org/wiki/Classify.seqs}{Classify.seqs} by Mothur. \code{ksize}, kmer size which is a search option with the 'Wang' method and by default to 8.  \code{iters}, iterations by default 100 to calculate the bootstrap confidence score for the assigned taxonomy. \code{cutoff}, a bootstrap confidence score for the taxonomy assignment, by default 80, which means a minimum 80\% sequences were assigned by the same taxonomy, a higher value gives a more strict taxonomy assignment. \code{processors}, the number of central processing units you use to run the command, by default to 1.
 #' @param dir.out a directory where the assigned files were outputted, by default to create \code{assignTax_out} directory and output assigned files under this directory.
 #' @details This function performs 'classify.seqs' by running Mothur in command line mode, hence the executable Mothur on your computer is needed. For unix users, the absolute path of Mothur should be added to the PATH environmental variable and exported. For Windows users, the executable Mothur with extension .exe is required under your disks.
-#'
+#' @export
 #' @return two files under \code{dir.out}, a \code{*.taxonomy} file which contains a taxonomic path for each sequence and a \code{*.tax.summary} file which contains a taxonomic outline indicating the number of sequences that were found at each level (kingdom to species).
 #' a list containing the following components:
 #' exitStatus  an error code ('0' for success) given by the execution of the system Mothur commands, see \code{\link[base]{system}}.
@@ -94,5 +94,4 @@ iters = 100, cutoff = 80, processors=1, dir.out = "assignTax_out") {
 	retval$stdout = readLines(stdout.file)
 	unlink(c(stdout.file, stderr.file))
 	return(retval)
-
 }
