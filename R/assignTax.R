@@ -5,8 +5,8 @@
 #' processors = 1, dir.out = "assignTax_out")
 #'
 #' @param fasta a fasta file of rRNA sequences to be assigned with taxonomies, e.g. a set of sequences picked as the representatives of OTUs.
-#' @param template a faste file of rRNA reference sequences, default to download "Silva_119_provisional_release.zip" under "qiime" directory from SILVA archive under , and extract "Silva_119_rep_set97.fna", a representative set of SILVA rRNA references of version119 at 97\% sequence identity.
-#' @param taxonomy a taxonomic path file mapping to the template file, default to load "Silva_119_rep_set97.fna" matched "taxonomy" stored in the package.
+#' @param template a faste file of rRNA reference sequences, default to download "Silva_132_release.zip" under "qiime" directory from SILVA archive under , and extract "Silva_132_rep_set97.fna", a representative set of SILVA rRNA references of version132 at 97\% sequence identity.
+#' @param taxonomy a taxonomic path file mapping to the template file, default to load "Silva_132_rep_set97.fna" matched "taxonomy" stored in the package.
 #' @param ksize,iters,cutoff,processors parameters used in \href{http://www.mothur.org/wiki/Classify.seqs}{Classify.seqs} by Mothur. \code{ksize}, kmer size which is a search option with the 'Wang' method and by default to 8.  \code{iters}, iterations by default 100 to calculate the bootstrap confidence score for the assigned taxonomy. \code{cutoff}, a bootstrap confidence score for the taxonomy assignment, by default 80, which means a minimum 80\% sequences were assigned by the same taxonomy, a higher value gives a more strict taxonomy assignment. \code{processors}, the number of central processing units you use to run the command, by default to 1.
 #' @param dir.out a directory where the assigned files were outputted, by default to create \code{assignTax_out} directory and output assigned files under this directory.
 #' @details This function performs 'classify.seqs' by running Mothur in command line mode, hence the executable Mothur on your computer is needed. For unix users, the absolute path of Mothur should be added to the PATH environmental variable and exported. For Windows users, the executable Mothur with extension .exe is required under your disks.
@@ -25,17 +25,17 @@ iters = 100, cutoff = 80, processors=1, dir.out = "assignTax_out") {
 	
 	#download the template file
 	if(is.null(template)){
-		t.file = "http://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_119_provisional_release.zip"
+		t.file = "http://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip"
 		temp = tempfile()
 		download.file(t.file,destfile = temp, method="curl")
-		unzip(temp, "Silva119_release/rep_set/97/Silva_119_rep_set97.fna")
-		template = "Silva119_release/rep_set/97/Silva_119_rep_set97.fna"
+		unzip(temp, "Silva132_release/rep_set/97/Silva_132_rep_set97.fna")
+		template = "Silva132_release/rep_set/97/Silva_132_rep_set97.fna"
 		unlink(temp)
 	}
 	if(is.null(taxonomy)){
-		taxonomy.file = system.file("Rep/Silva_119_rep_set97_taxonomy.txt.bz2", package = "eudysbiome")
+		taxonomy.file = system.file("Rep/Silva_132_rep_set97_taxonomy.txt.bz2", package = "eudysbiome")
 		bunzip2(taxonomy.file)
-		taxonomy = getAbsolutePath("Silva_119_rep_set97_taxonomy.txt")
+		taxonomy = getAbsolutePath("Silva_132_rep_set97_taxonomy.txt")
 	}
 	if (.Platform$OS.type == "unix") {
 		exec = "mothur"
